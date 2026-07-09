@@ -3,3 +3,9 @@ __pycache__/
 .env
 .DS_Store
 *.log
+# Gitleaks generated reports
+reports/gitleaks-report.json
+reports/gitleaks-working-tree.json
+
+# Checkov output (if generated later)
+checkov-report.*

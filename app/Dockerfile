@@ -5,12 +5,20 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+# Update OS packages and clean cache
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
 RUN addgroup --system appgroup && \
     adduser --system --ingroup appgroup appuser
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --no-cache-dir --upgrade pip && \
+    python -m pip install --no-cache-dir -r requirements.txt
 
 COPY app.py .
 
