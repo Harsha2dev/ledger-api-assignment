@@ -1,85 +1,90 @@
-# Dodo Payments – DevSecOps Security Assessment
+# Dodo Payments – DevSecOps Security Assignment
 
 ## Overview
 
-This repository contains my solution for the Dodo Payments DevSecOps Security Engineer technical assessment.
+This repository contains my solution for the Dodo Payments DevSecOps Security Engineer assignment.
 
-The project secures the vulnerable `ledger-api` microservice by implementing workload hardening, supply-chain security, GitOps, service mesh security, and penetration testing.
+The project hardens and secures the vulnerable `ledger-api` application using modern DevSecOps practices, including container security, Kubernetes hardening, GitOps, service mesh security, admission control, supply-chain security, and security testing.
 
 ---
 
-# Task 1 – Deploy & Harden
+# Tasks Completed
 
-## Implemented
+## Task 1 – Secure Deployment
+
+Implemented:
 
 - Hardened Docker image
-- Non-root container
+- Python dependency updates
+- Non-root container execution
 - Read-only root filesystem
 - Dropped Linux capabilities
 - RuntimeDefault seccomp profile
-- Resource requests and limits
-- Liveness & readiness probes
-- Kubernetes Secret
+- Kubernetes Namespace
 - ConfigMap
+- Secret
 - ServiceAccount
-- RBAC
+- RBAC (Role & RoleBinding)
+- Resource requests & limits
+- Liveness & Readiness probes
 - NetworkPolicy
-- Kyverno admission policies
+- Ingress
 - Reporting neighbour service
 
 ---
 
-# Task 2 – Secure CI/CD & Supply Chain
+## Task 2 – Secure CI/CD & Supply Chain
 
-Implemented
+Implemented:
 
-- GitHub Actions pipeline
-- Trivy image scanning
+- GitHub Actions CI pipeline
+- Trivy vulnerability scanning
 - Gitleaks secret scanning
-- Checkov Kubernetes scanning
-- SBOM generation (SPDX)
+- Checkov IaC scanning
+- SPDX SBOM generation
 - Cosign image signing
-- ArgoCD GitOps
-- Drift detection
-- Self-healing deployment
+- ArgoCD GitOps deployment
+- Auto Sync
+- Self Healing
+- Drift Detection
 
 ---
 
-# Task 3 – Zero Trust (Istio)
+## Task 3 – Zero Trust Networking (Istio)
 
-Implemented
+Implemented:
 
-- Istio service mesh
+- Istio Service Mesh
 - STRICT mTLS
 - AuthorizationPolicy
-- NetworkPolicy
-- Service-to-service authorization
+- Kubernetes NetworkPolicy
+- Secure service-to-service communication
 
 ---
 
-# Task 4 – Security Testing
+## Task 4 – Security Testing
 
-Recon
+Performed:
 
-- Technology fingerprinting
-- Attack surface review
-
-Penetration Testing
-
-- OWASP ZAP
+- OWASP ZAP scan
 - SSRF assessment
 - YAML deserialization review
+- HTTP security header analysis
+- Basic reconnaissance
 
 ---
 
-# Security Tools
+# Security Tools Used
 
+- Docker
+- Kubernetes (Kind)
+- GitHub Actions
 - Trivy
 - Checkov
 - Gitleaks
 - Cosign
-- Kyverno
 - ArgoCD
+- Kyverno
 - Istio
 - OWASP ZAP
 
@@ -87,21 +92,60 @@ Penetration Testing
 
 # Repository Structure
 
-(app, deploy, reports, tests, etc.)
+```
+.
+├── app/
+├── deploy/
+├── reports/
+├── tests/
+├── .github/workflows/
+└── README.md
+```
 
 ---
 
-# Screenshots
+# Reports
 
-- ArgoCD Sync
-- Kyverno policy enforcement
-- Istio mTLS
-- Trivy results
-- ZAP scan
-- GitHub Actions
+Located under `reports/`
+
+- Trivy scan reports
+- SPDX SBOM
 
 ---
 
-# Results
+# Test Manifests
 
-Summarize the security improvements and mention any environment-specific observations (for example, local Ingress health depending on the presence of an Ingress controller).
+Located under `tests/`
+
+- Kyverno insecure pod
+- Kyverno secure pod
+
+---
+
+# Deployment
+
+```bash
+kubectl apply -f deploy/
+```
+
+---
+
+# Verification
+
+```bash
+kubectl get pods -n payments
+kubectl get deployments -n payments
+kubectl get networkpolicy -n payments
+kubectl get peerauthentication -n payments
+kubectl get authorizationpolicy -n payments
+```
+
+---
+
+# Notes
+
+- The application is managed through ArgoCD using GitOps.
+- Kyverno enforces pod security policies.
+- Istio provides mutual TLS and authorization controls.
+- Supply-chain security includes SBOM generation and Cosign signing.
+- Security validation was performed using Trivy, Checkov, Gitleaks, and OWASP ZAP.
