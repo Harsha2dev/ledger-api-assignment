@@ -10,7 +10,7 @@ spec:
 
   containers:
     - name: nginx
-      image: nginx:latest
+      image: nginx:1.27.5
 
       securityContext:
         allowPrivilegeEscalation: false

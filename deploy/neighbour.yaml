@@ -22,7 +22,19 @@ spec:
         app: reporting
     spec:
       serviceAccountName: reporting
+
+      securityContext:
+        runAsNonRoot: true
+
       containers:
         - name: client
           image: curlimages/curl:8.8.0
-          command: ["sleep", "infinity"]
+          command:
+            - sleep
+            - infinity
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
