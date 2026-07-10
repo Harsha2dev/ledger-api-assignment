@@ -2,9 +2,9 @@
 
 ## Overview
 
-This repository contains my solution for the Dodo Payments DevSecOps Security Engineer assignment.
+This repository contains my solution for the **Dodo Payments DevSecOps Security Engineer Technical Assignment**.
 
-The project hardens and secures the vulnerable `ledger-api` application using modern DevSecOps practices, including container security, Kubernetes hardening, GitOps, service mesh security, admission control, supply-chain security, and security testing.
+The project secures and deploys the vulnerable **ledger-api** application by implementing DevSecOps best practices across container security, Kubernetes hardening, GitOps, Zero Trust networking, supply chain security, and application security testing.
 
 ---
 
@@ -12,24 +12,24 @@ The project hardens and secures the vulnerable `ledger-api` application using mo
 
 ## Task 1 – Secure Deployment
 
-Implemented:
+Implemented the following security controls:
 
 - Hardened Docker image
-- Python dependency updates
+- Updated Python dependencies
 - Non-root container execution
 - Read-only root filesystem
 - Dropped Linux capabilities
-- RuntimeDefault seccomp profile
+- RuntimeDefault Seccomp profile
 - Kubernetes Namespace
 - ConfigMap
-- Secret
+- Kubernetes Secret
 - ServiceAccount
 - RBAC (Role & RoleBinding)
-- Resource requests & limits
-- Liveness & Readiness probes
+- Resource Requests & Limits
+- Liveness & Readiness Probes
 - NetworkPolicy
-- Ingress
-- Reporting neighbour service
+- Kubernetes Ingress
+- Reporting neighbour service deployment
 
 ---
 
@@ -40,12 +40,12 @@ Implemented:
 - GitHub Actions CI pipeline
 - Trivy vulnerability scanning
 - Gitleaks secret scanning
-- Checkov IaC scanning
+- Checkov Infrastructure-as-Code scanning
 - SPDX SBOM generation
 - Cosign image signing
 - ArgoCD GitOps deployment
-- Auto Sync
-- Self Healing
+- Automated Synchronization
+- Self-Healing
 - Drift Detection
 
 ---
@@ -55,7 +55,7 @@ Implemented:
 Implemented:
 
 - Istio Service Mesh
-- STRICT mTLS
+- STRICT Mutual TLS (mTLS)
 - AuthorizationPolicy
 - Kubernetes NetworkPolicy
 - Secure service-to-service communication
@@ -66,11 +66,11 @@ Implemented:
 
 Performed:
 
-- OWASP ZAP scan
-- SSRF assessment
-- YAML deserialization review
-- HTTP security header analysis
-- Basic reconnaissance
+- Reconnaissance
+- OWASP ZAP Security Scan
+- SSRF Assessment
+- YAML Deserialization Review
+- HTTP Security Header Review
 
 ---
 
@@ -94,11 +94,50 @@ Performed:
 
 ```
 .
+├── .github/
+│   └── workflows/
+│       └── build.yml
+│
 ├── app/
+│   ├── app.py
+│   ├── Dockerfile
+│   └── requirements.txt
+│
 ├── deploy/
+│   ├── authorization-policy.yaml
+│   ├── configmap.yaml
+│   ├── deployment.yaml
+│   ├── ingress.yaml
+│   ├── kyverno-policy.yaml
+│   ├── namespace.yaml
+│   ├── neighbour.yaml
+│   ├── network-policy.yaml
+│   ├── peer-authentication.yaml
+│   ├── secret.yaml
+│   ├── service.yaml
+│   └── serviceaccount.yaml
+│
 ├── reports/
+│   ├── pentest-report.md
+│   ├── zap-report.pdf
+│   ├── sbom.spdx.json
+│   ├── starter-image-report.txt
+│   ├── secure-image-report.txt
+│   ├── secure-v2-image-report.txt
+│   └── secure-v3-image-report.txt
+│
+├── screenshots/
+│   ├── argocd-sync.png
+│   ├── github-actions.png
+│   ├── istio-mtls.png
+│   ├── trivy-report.png
+│   └── zap-scan.png
+│
 ├── tests/
-├── .github/workflows/
+│   ├── kyverno-test-pod.yaml
+│   └── kyverno-secure-test-pod.yaml
+│
+├── cosign.pub
 └── README.md
 ```
 
@@ -106,23 +145,30 @@ Performed:
 
 # Reports
 
-Located under `reports/`
+The **reports/** directory contains:
 
-- Trivy scan reports
-- SPDX SBOM
+- Trivy vulnerability scan reports
+- SPDX Software Bill of Materials (SBOM)
+- OWASP ZAP Scan Report (PDF)
+- Penetration Testing Report
 
 ---
 
-# Test Manifests
+# Screenshots
 
-Located under `tests/`
+The **screenshots/** directory contains evidence of the completed implementation:
 
-- Kyverno insecure pod
-- Kyverno secure pod
+- ArgoCD GitOps Deployment
+- GitHub Actions Pipeline
+- Trivy Vulnerability Scan
+- Istio mTLS Configuration
+- OWASP ZAP Scan
 
 ---
 
 # Deployment
+
+Deploy all Kubernetes resources:
 
 ```bash
 kubectl apply -f deploy/
@@ -132,20 +178,55 @@ kubectl apply -f deploy/
 
 # Verification
 
+Verify the deployment using:
+
 ```bash
 kubectl get pods -n payments
 kubectl get deployments -n payments
+kubectl get svc -n payments
+kubectl get ingress -n payments
 kubectl get networkpolicy -n payments
 kubectl get peerauthentication -n payments
 kubectl get authorizationpolicy -n payments
+kubectl get application -n argocd
 ```
 
 ---
 
-# Notes
+# Security Improvements
 
-- The application is managed through ArgoCD using GitOps.
-- Kyverno enforces pod security policies.
-- Istio provides mutual TLS and authorization controls.
-- Supply-chain security includes SBOM generation and Cosign signing.
-- Security validation was performed using Trivy, Checkov, Gitleaks, and OWASP ZAP.
+The project implements multiple layers of security, including:
+
+- Secure Docker image hardening
+- Non-root containers
+- Kubernetes Secrets
+- RBAC
+- Service Accounts
+- Network Policies
+- Istio Service Mesh
+- STRICT Mutual TLS
+- Authorization Policies
+- Kyverno Admission Policies
+- GitOps deployment using ArgoCD
+- Vulnerability scanning with Trivy
+- Infrastructure scanning with Checkov
+- Secret scanning with Gitleaks
+- Software Bill of Materials (SBOM)
+- Image signing using Cosign
+- Application security testing using OWASP ZAP
+
+---
+
+# Final Outcome
+
+This project demonstrates a complete DevSecOps workflow by combining secure containerization, Kubernetes hardening, GitOps deployment, Zero Trust networking, admission control, supply chain security, and application security testing.
+
+The solution satisfies the assignment requirements while following modern cloud-native security best practices.
+
+---
+
+## Author
+
+**Harsha MN**
+
+DevSecOps Security Engineer Assignment – Dodo Payments
