@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: insecure-pod
+  namespace: payments
+
+spec:
+  containers:
+    - name: nginx
+      image: nginx:latest

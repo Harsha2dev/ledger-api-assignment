@@ -9,3 +9,14 @@ reports/gitleaks-working-tree.json
 
 # Checkov output (if generated later)
 checkov-report.*
+# Cosign private key
+cosign.key
+
+# Nikto clone
+nikto/
+
+# Optional: local reports you don't want in Git
+# reports/
+
+# Optional: if you don't want to publish the public key
+# cosign.pub

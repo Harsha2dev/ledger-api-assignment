@@ -23,6 +23,7 @@ spec:
       serviceAccountName: ledger-api-sa
 
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
 
@@ -36,12 +37,12 @@ spec:
             runAsUser: 1000
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
+
             capabilities:
               drop:
                 - ALL
 
           env:
-            # ConfigMap
             - name: APP_NAME
               valueFrom:
                 configMapKeyRef:
@@ -60,7 +61,6 @@ spec:
                   name: ledger-api-config
                   key: LOG_LEVEL
 
-            # Secrets
             - name: STRIPE_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -75,6 +75,10 @@ spec:
 
           ports:
             - containerPort: 8080
+
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
 
           resources:
             requests:
@@ -101,3 +105,7 @@ spec:
             periodSeconds: 20
             timeoutSeconds: 2
             failureThreshold: 3
+
+      volumes:
+        - name: tmp
+          emptyDir: {}
